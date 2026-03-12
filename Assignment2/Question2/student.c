@@ -28,11 +28,33 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
+static int checkAVL(struct TreeNode* node, int* prev, bool* first) {
+    if (node == NULL) return 0;
+
+    // Left subtree
+    int lh = checkAVL(node->left, prev, first);
+    if (lh == -1) return -1;
+
+    // BST check via inorder (strictly increasing)
+    if (!*first && node->val <= *prev) return -1;
+    *first = false;
+    *prev = node->val;
+
+    // Right subtree
+    int rh = checkAVL(node->right, prev, first);
+    if (rh == -1) return -1;
+
+    // AVL balance check
+    int diff = lh - rh;
+    if (diff < -1 || diff > 1) return -1;
+
+    // Height
+    return (lh > rh ? lh : rh) + 1;
+}
+
+
 bool isAVL(struct TreeNode* root) {
-    // TODO: implement
-    // Hint: One common O(n) approach:
-    // - Use a recursive helper that returns the subtree height,
-    //   and returns -1 if subtree is invalid (BST violation or unbalanced).
-    (void)root;
-    return false;
+    int prev = 0;
+    bool first = true;
+    return checkAVL(root, &prev, &first) != -1;
 }
