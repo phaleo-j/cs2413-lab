@@ -59,21 +59,109 @@ int isSorted(int arr[], int size) {
 Sort arr[left...right] using insertion sort.
 */
 void insertionSort(int arr[], int left, int right) {
-    // TODO: implement insertion sort for arr[left...right]
+
+    for (int i = left + 1; i <= right; i++) {
+
+        int key = arr[i];
+        int j = i - 1;
+
+        // Move larger elements one position ahead
+        while (j >= left && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        // Insert key into correct position
+        arr[j + 1] = key;
+    }
 }
 
 /*
 Merge two sorted subarrays into one sorted subarray.
 */
 void merge(int arr[], int left, int mid, int right) {
-    // TODO: implement merge operation
+
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Create temporary arrays
+    int *L = (int *)malloc(n1 * sizeof(int));
+    int *R = (int *)malloc(n2 * sizeof(int));
+
+    // Copy data into temporary arrays
+    for (int i = 0; i < n1; i++) {
+        L[i] = arr[left + i];
+    }
+
+    for (int j = 0; j < n2; j++) {
+        R[j] = arr[mid + 1 + j];
+    }
+
+    int i = 0;
+    int j = 0;
+    int k = left;
+
+    // Merge temp arrays back into arr[]
+    while (i < n1 && j < n2) {
+
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+
+        k++;
+    }
+
+    // Copy remaining elements of L[]
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy remaining elements of R[]
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+    // Free allocated memory
+    free(L);
+    free(R);
 }
 
 /*
 Hybrid merge sort.
 */
 void hybridMergeSort(int arr[], int left, int right, int k) {
-    // TODO: implement hybrid merge sort
+
+    // Calculate current subarray size
+    int size = right - left + 1;
+
+    // Use insertion sort if subarray size <= k
+    if (size <= k) {
+        insertionSort(arr, left, right);
+        return;
+    }
+
+    // Continue merge sort recursion
+    if (left < right) {
+
+        int mid = left + (right - left) / 2;
+
+        // Sort left half
+        hybridMergeSort(arr, left, mid, k);
+
+        // Sort right half
+        hybridMergeSort(arr, mid + 1, right, k);
+
+        // Merge sorted halves
+        merge(arr, left, mid, right);
+    }
 }
 
 int main() {
