@@ -1,5 +1,5 @@
 #include <stdbool.h>
-
+#include <stddef.h>
 /*
 Question 1: Bubble Sort
 
@@ -21,6 +21,23 @@ Both functions should sort the array in ascending order.
 
 Example:
 Input:  [5, 1, 4, 2, 8]
+
+[1,5,4,2,8]   1 swap
+[1,4,5,2,8]   2 swap
+[1,4,2,5,8]   3 swap    keep smallest and largest value 1,8
+[1,2,4,5,8]   4 swaps  
+
+
+[4,5,2,8,1] 1
+
+[4,2,5,8,1] 1 swap
+[4,2,5,1,8] 1st pass through 2 swaps
+[2,4,5,1,8] 3 swap 
+[2,4,1,5,8] 4 swap
+[2,1,4,5,8] 5 swap 
+[1,2,4,5,8] 6 swap
+
+
 Output: [1, 2, 4, 5, 8]
 
 Notes:
@@ -29,14 +46,51 @@ Notes:
 */
 
 void bubbleSort(int arr[], int size) {
-    // TODO: implement basic bubble sort
-    (void)arr;
-    (void)size;
+
+    if((size == 1) || (arr == NULL)){
+      return;
+    } 
+
+ bool swapped = true;
+
+    while (swapped) {
+        swapped = false;
+        for (int i = 0; i < size - 1; i++) {
+
+            if (arr[i + 1] < arr[i]) {  //if a swap has occured, 
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;   //then set swapped to true, keeping the loop going
+
+            }
+        }
+        size--;
+    }
+
 }
 
 void bubbleSortOptimized(int arr[], int size) {
-    // TODO: implement optimized bubble sort with early stopping
-    (void)arr;
-    (void)size;
+    
+     if((size == 1) || (arr == NULL)){
+      return;
+    } 
+
+ bool swapped = true;
+
+    while (swapped) {
+        swapped = false;
+        for (int i = 0; i < size - 1; i++) {
+
+            if (arr[i + 1] < arr[i]) {  //if a swap has occured, 
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;   //then set swapped to true, keeping the loop going
+                
+            }
+        }
+        size--;
+    }
 }
 
